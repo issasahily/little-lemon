@@ -6,40 +6,43 @@ import {
   StyleSheet,
   ScrollView,
   TextInput,
+  Pressable,
 } from "react-native";
 import { useEffect, useState } from "react";
 import { Alert } from "react-native";
 import AsyncStorage from "@react-native-async-storage/async-storage";
 
-const Onboarding = () => {
+const Onboarding = ({ navigation }) => {
   const [name, setName] = useState("");
   const [email, setEmail] = useState("");
   const [buttonDisable, setButtonDisable] = useState(false);
-  //   const passRegEx = /(?=.*[a-z])(?='gmail')(?=.*[!@#$%^?&*]).{7,}/;
+  const [isOnboardingComplete, setIsOnboardingComplete] = useState(false);
   const passRegEx = /(?=.gmail)(?=.*[!@#$%^?&*])/;
 
   useEffect(() => {
     if (name.trim().length > 0) {
       if (passRegEx.test(email)) {
         setButtonDisable(true);
-        Alert.alert("buttonDisable");
+        setIsOnboardingComplete(true);
+
+        // Alert.alert(String(isOnboardingComplete));
+      } else {
+        setButtonDisable(false);
       }
-    } else {
-      setButtonDisable(false);
     }
   }, [name, email]);
-  useEffect(() => {
-    (async () => {
-      try {
-        await AsyncStorage.setItem(
-          "isOnboardingComplete",
-          JSON.stringify(buttonDisable)
-        );
-      } catch (e) {
-        Alert.alert(e);
-      }
-    })();
-  }, [buttonDisable]);
+  const onBoardingSaveHandler = async () => {
+    try {
+      await AsyncStorage.multiSet([
+        ["name", name],
+        ["email", email],
+        ["isOnboardingComplete", JSON.stringify(isOnboardingComplete)],
+      ]);
+      navigation.navigate("profile");
+    } catch (e) {
+      Alert.alert(e);
+    }
+  };
 
   return (
     <View style={styles.container}>
@@ -59,7 +62,7 @@ const Onboarding = () => {
           style={styles.input}
           placeholder="name"
         />
-        <Text style={{ marginBottom: "2%", fontSize: 20 }}>Email+{name}</Text>
+        <Text style={{ marginBottom: "2%", fontSize: 20 }}>Email</Text>
         <TextInput
           value={email}
           style={styles.input}
@@ -68,8 +71,11 @@ const Onboarding = () => {
           keyboardType="email-address"
         />
       </View>
+
       <View style={styles.button_container}>
-        <View
+        <Pressable
+          disabled={!buttonDisable}
+          onPress={onBoardingSaveHandler}
           style={[
             styles.button,
             buttonDisable ? { backgroundColor: "yellow" } : "",
@@ -83,7 +89,7 @@ const Onboarding = () => {
           >
             Next
           </Text>
-        </View>
+        </Pressable>
       </View>
     </View>
   );

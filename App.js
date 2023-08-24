@@ -6,6 +6,8 @@ import Profile from "./Screens/Profile";
 import { useEffect, useState } from "react";
 import AsyncStorage from "@react-native-async-storage/async-storage";
 import { Alert } from "react-native";
+import Settings from "./Screens/Settings";
+import Home from "./Screens/Home";
 const Stack = createNativeStackNavigator();
 function SplashScreen() {
   return (
@@ -23,7 +25,10 @@ export default function App() {
     const sleep = (ms) => new Promise((r) => setTimeout(r, ms));
     try {
       // custom logic
+
       await sleep(2000);
+      const status = await AsyncStorage.getItem("isOnboardingComplete");
+      setIsOnboardingComplete(JSON.parse(status));
     } finally {
       setIsLoading(false);
     }
@@ -32,9 +37,6 @@ export default function App() {
     (async () => {
       try {
         getUserToken();
-        const coun = await AsyncStorage.getItem("isOnboardingComplete");
-        const cof = JSON.parse(coun);
-        setIsOnboardingComplete(cof);
       } catch (e) {}
     })();
   }, []);
@@ -45,12 +47,13 @@ export default function App() {
   return (
     <NavigationContainer>
       <View style={styles.container}>
-        <Stack.Navigator>
-          {isOnboardingComplete ? (
-            <Stack.Screen name="profile" component={Profile} />
-          ) : (
-            <Stack.Screen name="onboarding" component={Onboarding} />
-          )}
+        <Stack.Navigator
+          initialRouteName={isOnboardingComplete ? "home" : "onboarding"}
+        >
+          <Stack.Screen name="onboarding" component={Onboarding} />
+          <Stack.Screen name="profile" component={Profile} />
+          <Stack.Screen name="settings" component={Settings} />
+          <Stack.Screen name="home" component={Home} />
         </Stack.Navigator>
       </View>
     </NavigationContainer>
