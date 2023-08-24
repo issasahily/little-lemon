@@ -30,25 +30,63 @@ const API_URL =
   "https://raw.githubusercontent.com/Meta-Mobile-Developer-PC/Working-With-Data-API/main/capstone.json";
 const sections = ["starters", "mains", "desserts"];
 
-const Item = ({ name, price, description, image }) => (
-  <View>
-    <Text>{name}</Text>
-    <View style={{ flexDirection: "column" }}>
-      <View>
-        <Text>{description}</Text>
-        <Text>${image}</Text>
-      </View>
-      <View>
-        <Image
-          source={{
-            uri: `https://github.com/issasahily/little-lemon/blob/main/assets/image/${image}?raw=true`,
-          }}
-          style={{ width: 100, height: 200, resizeMode: "contain" }}
-        />
+const Item = ({ name, price, description, image }) => {
+  const [presss, setPress] = useState(false);
+  return (
+    <View style={{ borderBottomWidth: 0.4 }}>
+      <Text style={{ fontSize: 20, fontWeight: "bold", marginBottom: 10 }}>
+        {name}
+      </Text>
+      <View
+        style={{
+          flexDirection: "row",
+          flexWrap: "wrap",
+          justifyContent: "space-between",
+          // borderWidth: 1,
+        }}
+      >
+        <View>
+          <Pressable onPress={() => setPress(!presss)}>
+            <Text
+              style={{
+                width: 250,
+                fontSize: 18,
+                color: "#495E57",
+              }}
+              numberOfLines={presss ? 6 : 2}
+            >
+              {description}
+            </Text>
+          </Pressable>
+
+          <Text
+            style={{
+              lineHeight: 40,
+              fontWeight: "bold",
+              fontSize: 20,
+              color: "#495E57",
+            }}
+          >
+            ${price}
+          </Text>
+        </View>
+        <View>
+          <Image
+            source={{
+              uri: `https://github.com/issasahily/little-lemon/blob/main/assets/image/${image}?raw=true`,
+            }}
+            style={{
+              width: 100,
+              height: 80,
+              resizeMode: "cover",
+              borderRadius: 15,
+            }}
+          />
+        </View>
       </View>
     </View>
-  </View>
-);
+  );
+};
 var Primary = "#495E57";
 var Primary2 = "#F4CE14";
 
