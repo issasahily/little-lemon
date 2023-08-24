@@ -24,7 +24,7 @@ export default function App() {
     // testing purposes
     const sleep = (ms) => new Promise((r) => setTimeout(r, ms));
     try {
-      // custom logic
+      // custom logi
 
       await sleep(2000);
       const status = await AsyncStorage.getItem("isOnboardingComplete");
