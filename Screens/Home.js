@@ -41,7 +41,7 @@ const Item = ({ name, price, description, image }) => (
       <View>
         <Image
           source={{
-            uri: `https://github.com/Meta-Mobile-Developer-PC/Working-With-Data-API/blob/main/images/bruschetta.jpg?raw=true`,
+            uri: `https://github.com/issasahily/little-lemon/blob/main/assets/image/${image}?raw=true`,
           }}
           style={{ width: 100, height: 200, resizeMode: "contain" }}
         />
