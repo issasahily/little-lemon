@@ -146,7 +146,10 @@ const Profile = ({ navigation }) => {
   return (
     <View style={styles.container}>
       <View style={styles.logo_container}>
-        <Pressable style={{ width: 50, height: 50, alignSelf: "center" }}>
+        <Pressable
+          onPress={() => navigation.navigate("home")}
+          style={{ width: 50, height: 50, alignSelf: "center" }}
+        >
           <SvgComponent />
         </Pressable>
         <Image
@@ -228,49 +231,52 @@ const Profile = ({ navigation }) => {
         </Button>
       </View>
       <View style={{}}>
-        <Text style={styles.text_Avatar}>First name</Text>
-        <TextInput
-          value={name}
-          onChangeText={setName}
-          textContentType="username"
-          style={styles.input}
-          placeholder="name"
-        />
-        <Text style={styles.text_Avatar}>Last name</Text>
-        <TextInput
-          value={lastName}
-          style={styles.input}
-          onChangeText={setLastName}
-          placeholder="last name"
-        />
-        <Text style={styles.text_Avatar}>Email</Text>
-        <TextInput
-          value={email}
-          style={styles.input}
-          onChangeText={setEmail}
-          placeholder="email"
-          keyboardType="email-address"
-        />
-        <Text style={styles.text_Avatar}>
-          Phone number{" "}
-          <Text style={{ color: "red", fontSize: 15 }}>
-            {!valid && phone.length > 0 ? "(enter valid number!)" : ""}
+        <ImageBackground source={require("../assets/little-lemon-logo.png")}>
+          <Text style={styles.text_Avatar}>First name</Text>
+          <TextInput
+            value={name}
+            onChangeText={setName}
+            textContentType="username"
+            style={styles.input}
+            placeholder="name"
+          />
+          <Text style={styles.text_Avatar}>Last name</Text>
+          <TextInput
+            value={lastName}
+            style={styles.input}
+            onChangeText={setLastName}
+            placeholder="last name"
+          />
+          <Text style={styles.text_Avatar}>Email</Text>
+          <TextInput
+            value={email}
+            style={styles.input}
+            onChangeText={setEmail}
+            placeholder="email"
+            keyboardType="email-address"
+          />
+          <Text style={styles.text_Avatar}>
+            Phone number{" "}
+            <Text style={{ color: "red", fontSize: 15 }}>
+              {!valid && phone.length > 0 ? "(enter valid number!)" : ""}
+            </Text>
           </Text>
-        </Text>
-        <TextInput
-          value={phone}
-          style={styles.input}
-          onChangeText={(e) => {
-            setPhone(e), validPhone();
-          }}
-          placeholder="+1*****"
-          keyboardType="phone-pad"
-          // onBlur={validPhone}
-        />
-        <Text style={[styles.text_Avatar, { fontSize: 24 }]}>
-          Email notifications
-        </Text>
+          <TextInput
+            value={phone}
+            style={styles.input}
+            onChangeText={(e) => {
+              setPhone(e), validPhone();
+            }}
+            placeholder="+1*****"
+            keyboardType="phone-pad"
+            // onBlur={validPhone}
+          />
+          <Text style={[styles.text_Avatar, { fontSize: 24 }]}>
+            Email notifications
+          </Text>
+        </ImageBackground>
       </View>
+
       <View style={{ flexDirection: "column" }}>
         <View
           style={{

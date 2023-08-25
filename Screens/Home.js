@@ -90,7 +90,7 @@ const Item = ({ name, price, description, image }) => {
 var Primary = "#495E57";
 var Primary2 = "#F4CE14";
 
-export default function Home() {
+export default function Home({ navigation }) {
   const [data, setData] = useState([]);
   const [searchBarText, setSearchBarText] = useState("");
   const [query, setQuery] = useState("");
@@ -100,6 +100,7 @@ export default function Home() {
   const [image, setImage] = useState(null);
   const [name, setName] = useState("");
   const [lastName, setLastName] = useState("");
+  const [renderImage, setRenderImage] = useState(false);
   const [fontsLoaded] = Font.useFonts({
     Karla: require("../assets/font/Karla-Regular.ttf"),
   });
@@ -149,12 +150,11 @@ export default function Home() {
       try {
         await createTable();
         let menuItems = await getMenuItems();
-        const initialState = await AsyncStorage.multiGet([
-          "name",
-          "lastname",
-          "image",
-        ]);
-        // console.log(data);
+        const com = await AsyncStorage.multiGet(["name", "lastname", "image"]);
+        const initialState = com.reduce((acc, curr) => {
+          acc[curr[0]] = curr[1];
+          return acc;
+        }, {});
         setImage(initialState.image ? JSON.parse(initialState.image) : "");
         setName(initialState.name ? initialState.name : "");
         setLastName(initialState.lastname ? initialState.lastname : "");
@@ -201,7 +201,15 @@ export default function Home() {
           query,
           activeCategories
         );
-        // const sectionListData = getSectionListData(menuItems);
+        const com = await AsyncStorage.multiGet(["name", "lastname", "image"]);
+        const initialState = com.reduce((acc, curr) => {
+          acc[curr[0]] = curr[1];
+          return acc;
+        }, {});
+        setImage(initialState.image ? JSON.parse(initialState.image) : "");
+        setName(initialState.name ? initialState.name : "");
+        setLastName(initialState.lastname ? initialState.lastname : "");
+
         setData(menuItems);
       } catch (e) {
         Alert.alert(e.message);
@@ -243,31 +251,38 @@ export default function Home() {
           style={styles.logo}
           source={require("../assets/Logo.png")}
         ></Image>
-        <View
-          style={{
-            alignSelf: "center",
-            justifyContent: "center",
-            alignItems: "center",
-            width: 50,
-            height: 50,
-            borderRadius: 50,
-            backgroundColor: "#51E6CB",
-            marginRight: "4%",
+        <Pressable
+          onPress={() => {
+            navigation.navigate("profile");
+            setRenderImage(!renderImage);
           }}
         >
-          {image ? (
-            <Image
-              source={{ uri: image }}
-              resizeMode="cover"
-              style={{ width: 50, height: 50, borderRadius: 50 }}
-            />
-          ) : (
-            <Text style={{ color: "white" }}>
-              {name[0]}
-              {lastName[0]}
-            </Text>
-          )}
-        </View>
+          <View
+            style={{
+              alignSelf: "center",
+              justifyContent: "center",
+              alignItems: "center",
+              width: 50,
+              height: 50,
+              borderRadius: 50,
+              backgroundColor: "#51E6CB",
+              marginRight: "4%",
+            }}
+          >
+            {image ? (
+              <Image
+                source={{ uri: image }}
+                resizeMode="cover"
+                style={{ width: 50, height: 50, borderRadius: 50 }}
+              />
+            ) : (
+              <Text style={{ color: "white" }}>
+                {name[0]}
+                {lastName[0]}
+              </Text>
+            )}
+          </View>
+        </Pressable>
       </View>
 
       <View style={{ backgroundColor: Primary }}>
