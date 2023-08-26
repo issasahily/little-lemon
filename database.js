@@ -35,9 +35,9 @@ export function saveMenuItems(menuItems) {
           (item) =>
             `('${item.id}', '${item.name}', '${
               item.category
-            }', '${item.description.slice(item.description.length)}', '${
-              item.price
-            }', '${item.image}')`
+            }', "${item.description.slice()}", '${item.price}', '${
+              item.image
+            }')`
         )
         .join(", ")}`
     );

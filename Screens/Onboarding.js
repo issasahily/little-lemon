@@ -38,7 +38,7 @@ const Onboarding = ({ navigation }) => {
         ["email", email],
         ["isOnboardingComplete", JSON.stringify(isOnboardingComplete)],
       ]);
-      navigation.navigate("profile");
+      navigation.navigate("home");
     } catch (e) {
       Alert.alert(e);
     }

@@ -12,7 +12,7 @@ import {
   TouchableOpacity,
   FlatList,
 } from "react-native";
-import { Searchbar } from "react-native-paper";
+import { Button, Searchbar } from "react-native-paper";
 import debounce from "lodash.debounce";
 import {
   createTable,
@@ -349,6 +349,7 @@ export default function Home({ navigation }) {
           elevation={0}
         />
       </View>
+      <Button onPress={deleteTable}>delete</Button>
       <Text style={{ fontSize: 20, fontWeight: "bold", lineHeight: 30 }}>
         ORDER FOR DELIVERY!
       </Text>
